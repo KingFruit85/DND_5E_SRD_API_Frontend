@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
-import AttackAndSpellcastingTable from './AttackAndSpellcastingTable'
+import AttackAndSpellcastingTable from './AttackAndSpellcastingTable';
+import Equipment from './Equipment';
 
+export function ReturnAbilityScoreModifier(stat) {
+  //Math.sign() will add +/-
+  return Math.floor((stat - 10) / 2);
+}
 
 export function CharacterSheet() {
   const [isLoading, setIsLoading] = useState(true);
@@ -97,7 +102,7 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Strengthmod"
-                      defaultValue={ifPosAddPlusSign(returnAbilityScoreModifier(
+                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
                         characterData.AbilityScores.scores["str"]
                       ))}
                       className="statmod"
@@ -116,7 +121,7 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Dexteritymod"
-                      defaultValue={ifPosAddPlusSign(returnAbilityScoreModifier(
+                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
                         characterData.AbilityScores.scores["dex"]
                       ))}
                       className="statmod"
@@ -135,7 +140,7 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Constitutionmod"
-                      defaultValue={ifPosAddPlusSign(returnAbilityScoreModifier(
+                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
                         characterData.AbilityScores.scores["con"]
                       ))}
                       className="statmod"
@@ -154,7 +159,7 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Wisdommod"
-                      defaultValue={ifPosAddPlusSign(returnAbilityScoreModifier(
+                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
                         characterData.AbilityScores.scores["wis"]
                       ))}
                     />
@@ -172,7 +177,7 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Intelligencemod"
-                      defaultValue={ifPosAddPlusSign(returnAbilityScoreModifier(
+                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
                         characterData.AbilityScores.scores["int"]
                       ))}
                       className="statmod"
@@ -191,7 +196,7 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Charismamod"
-                      defaultValue={ifPosAddPlusSign(returnAbilityScoreModifier(
+                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
                         characterData.AbilityScores.scores["cha"]
                       ))}
                       className="statmod"
@@ -686,7 +691,7 @@ export function CharacterSheet() {
                   </li>
                 </ul>
               </div>
-              <textarea placeholder="Equipment list here"></textarea>
+              <Equipment character = {characterData}/>
             </div>
           </section>
         </section>
@@ -730,10 +735,7 @@ export function CharacterSheet() {
     </form>
   );
 
-  function returnAbilityScoreModifier(stat) {
-    //Math.sign() will add +/-
-    return Math.floor((stat - 10) / 2);
-  }
+
 
   function ifPosAddPlusSign(stat) {
     if (stat > 0) {
@@ -746,11 +748,11 @@ export function CharacterSheet() {
     if (character.ClassDetails.Proficiencies.skills.includes("perception")) {
       return (
         10 +
-        returnAbilityScoreModifier(character.AbilityScores.scores["wis"]) +
+        ReturnAbilityScoreModifier(character.AbilityScores.scores["wis"]) +
         character.ClassDetails.ProficiencyBonus
       );
     }
-    return 10 + returnAbilityScoreModifier(character.AbilityScores.scores["wis"]);
+    return 10 + ReturnAbilityScoreModifier(character.AbilityScores.scores["wis"]);
   }
 
   function populateOtherProfsAndLanguageArea (character)
@@ -823,17 +825,6 @@ export function CharacterSheet() {
       result += key + ": " + character.RaceDetails.RacePerks[key] + "\n\n";
     })
     return result;
-  }
-
-  function PopulateAttacksAndSpellcasting(character)
-  {
-    let table = document.getElementById('a&s');
-
-    var tr = document.createElement('tr');
-    tr.innerHTML ='<td><input name="atkname1" type="text" value={""}/></td><td><input name="atkbonus1" type="text" value={""}/></td><td><input name="atkdamage1" type="text" value={""}/></td>'
-    console.log(tr);
-    table.appendChild(tr);
-
   }
 
   function addRow()

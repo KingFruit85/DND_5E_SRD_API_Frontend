@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { CharacterSheet } from './containers/name';
+import { CharacterSheet } from './containers/Charactersheet';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const characterSheet = <CharacterSheet />;

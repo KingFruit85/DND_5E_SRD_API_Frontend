@@ -514,6 +514,7 @@ form.charsheet main section.attacksandspellcasting > div > table input {
   background-color: #eee;
   font-size: 10px;
   padding: 3px;
+  text-align: center;
 }
 form.charsheet main section.attacksandspellcasting > div textarea {
   border: 0;
