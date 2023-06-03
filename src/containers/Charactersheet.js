@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AttackAndSpellcastingTable from "./AttackAndSpellcastingTable";
 import Equipment from "./Equipment";
 
