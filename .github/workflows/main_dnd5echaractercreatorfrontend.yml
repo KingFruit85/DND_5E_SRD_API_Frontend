@@ -16,11 +16,7 @@ jobs:
     steps:
       - name: Set Node.js environment variable
         run: |
-          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
-
-      - name: Set Node.js environment variable
-        run: |
-          echo set NODE_OPTIONS=--openssl-legacy-provider && npm run build
+          echo set NODE_OPTIONS=--openssl-legacy-provider
 
       - uses: actions/checkout@v2
 
