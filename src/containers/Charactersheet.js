@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import AttackAndSpellcastingTable from './AttackAndSpellcastingTable';
-import Equipment from './Equipment';
+import AttackAndSpellcastingTable from "./AttackAndSpellcastingTable";
+import Equipment from "./Equipment";
 
 export function ReturnAbilityScoreModifier(stat) {
   //Math.sign() will add +/-
@@ -10,12 +10,23 @@ export function ReturnAbilityScoreModifier(stat) {
 export function CharacterSheet() {
   const [isLoading, setIsLoading] = useState(true);
   const [characterData, setCharacterData] = useState("");
-  const [attacksandspellcasting, setAttacksAndSpellCasting] = useState([<tr><td><input name="atkname1" type="text" value={""}/></td><td><input name="atkname1" type="text" value={""}/></td><td></td><input name="atkname1" type="text" value={""}/></tr>]);
+  const [attacksandspellcasting, setAttacksAndSpellCasting] = useState([
+    <tr>
+      <td>
+        <input name="atkname1" type="text" value={""} />
+      </td>
+      <td>
+        <input name="atkname1" type="text" value={""} />
+      </td>
+      <td></td>
+      <input name="atkname1" type="text" value={""} />
+    </tr>,
+  ]);
 
   useEffect(() => {
     let ignore = false;
     setIsLoading(true);
-    fetch("https://localhost:44388/Character")
+    fetch("https://dnd5echaractercreator.azurewebsites.net/Character") // https://localhost:44388/Character
       .then((response) => {
         return response.json();
       })
@@ -102,9 +113,11 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Strengthmod"
-                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
-                        characterData.AbilityScores.scores["str"]
-                      ))}
+                      defaultValue={ifPosAddPlusSign(
+                        ReturnAbilityScoreModifier(
+                          characterData.AbilityScores.scores["str"]
+                        )
+                      )}
                       className="statmod"
                     />
                   </div>
@@ -121,9 +134,11 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Dexteritymod"
-                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
-                        characterData.AbilityScores.scores["dex"]
-                      ))}
+                      defaultValue={ifPosAddPlusSign(
+                        ReturnAbilityScoreModifier(
+                          characterData.AbilityScores.scores["dex"]
+                        )
+                      )}
                       className="statmod"
                     />
                   </div>
@@ -140,9 +155,11 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Constitutionmod"
-                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
-                        characterData.AbilityScores.scores["con"]
-                      ))}
+                      defaultValue={ifPosAddPlusSign(
+                        ReturnAbilityScoreModifier(
+                          characterData.AbilityScores.scores["con"]
+                        )
+                      )}
                       className="statmod"
                     />
                   </div>
@@ -159,9 +176,11 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Wisdommod"
-                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
-                        characterData.AbilityScores.scores["wis"]
-                      ))}
+                      defaultValue={ifPosAddPlusSign(
+                        ReturnAbilityScoreModifier(
+                          characterData.AbilityScores.scores["wis"]
+                        )
+                      )}
                     />
                   </div>
                 </li>
@@ -177,9 +196,11 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Intelligencemod"
-                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
-                        characterData.AbilityScores.scores["int"]
-                      ))}
+                      defaultValue={ifPosAddPlusSign(
+                        ReturnAbilityScoreModifier(
+                          characterData.AbilityScores.scores["int"]
+                        )
+                      )}
                       className="statmod"
                     />
                   </div>
@@ -196,9 +217,11 @@ export function CharacterSheet() {
                   <div className="modifier">
                     <input
                       name="Charismamod"
-                      defaultValue={ifPosAddPlusSign(ReturnAbilityScoreModifier(
-                        characterData.AbilityScores.scores["cha"]
-                      ))}
+                      defaultValue={ifPosAddPlusSign(
+                        ReturnAbilityScoreModifier(
+                          characterData.AbilityScores.scores["cha"]
+                        )
+                      )}
                       className="statmod"
                     />
                   </div>
@@ -539,7 +562,10 @@ export function CharacterSheet() {
                 Passive Wisdom (Perception)
               </label>
             </div>
-            <input name="passiveperception" defaultValue={calculatePassivePerception(characterData)} />
+            <input
+              name="passiveperception"
+              defaultValue={calculatePassivePerception(characterData)}
+            />
           </div>
           <div className="otherprofs box textblock">
             <label htmlFor="otherprofs">
@@ -660,7 +686,7 @@ export function CharacterSheet() {
                   </tr>
                 </thead>
               </table>
-                <AttackAndSpellcastingTable character = {characterData}/>
+              <AttackAndSpellcastingTable character={characterData} />
               <textarea></textarea>
             </div>
           </section>
@@ -691,7 +717,7 @@ export function CharacterSheet() {
                   </li>
                 </ul>
               </div>
-              <Equipment character = {characterData}/>
+              <Equipment character={characterData} />
             </div>
           </section>
         </section>
@@ -735,8 +761,6 @@ export function CharacterSheet() {
     </form>
   );
 
-
-
   function ifPosAddPlusSign(stat) {
     if (stat > 0) {
       return "+" + stat.toString();
@@ -752,32 +776,30 @@ export function CharacterSheet() {
         character.ClassDetails.ProficiencyBonus
       );
     }
-    return 10 + ReturnAbilityScoreModifier(character.AbilityScores.scores["wis"]);
+    return (
+      10 + ReturnAbilityScoreModifier(character.AbilityScores.scores["wis"])
+    );
   }
 
-  function populateOtherProfsAndLanguageArea (character)
-  {
+  function populateOtherProfsAndLanguageArea(character) {
     let profs = populateOtherProfsArea(character);
     let languages = populateLanguages(character);
 
     return profs + "\n\n" + languages;
   }
 
-  function populateLanguages(character)
-  {
+  function populateLanguages(character) {
     let languages = "Languages: ";
     if (character.RaceDetails.Languages.length > 0) {
       character.RaceDetails.Languages.forEach((item) => {
         languages += item + ", ";
-      })
+      });
     }
 
     return languages.slice(0, -2);
-
   }
-  function populateOtherProfsArea(character)
-  {
-    let proficiencies = "Proficiencies: "
+  function populateOtherProfsArea(character) {
+    let proficiencies = "Proficiencies: ";
     let armorProfs = "";
     let weaponProfs = "";
     let toolProfs = "";
@@ -785,52 +807,49 @@ export function CharacterSheet() {
     if (character.ClassDetails.Proficiencies.armor.length > 0) {
       character.ClassDetails.Proficiencies.armor.forEach((item) => {
         armorProfs += item + ", ";
-      })
+      });
     }
 
     if (character.ClassDetails.Proficiencies.weapons.length > 0) {
       character.ClassDetails.Proficiencies.weapons.forEach((item) => {
         weaponProfs += item + ", ";
-      })
+      });
     }
 
-    if(character.ClassDetails.Proficiencies.tools.length > 0)
-    {
+    if (character.ClassDetails.Proficiencies.tools.length > 0) {
       character.ClassDetails.Proficiencies.tools.forEach((item) => {
         toolProfs += item + ", ";
-      })
+      });
     }
-    
+
     let result = proficiencies + armorProfs + weaponProfs + toolProfs;
-    return result.slice(0,-2);
+    return result.slice(0, -2);
   }
 
-  function PopulateFeaturesAndTraits(character)
-  {
+  function PopulateFeaturesAndTraits(character) {
     let result = "";
 
     let keys = Object.keys(character.RaceDetails.RacePerks);
 
-    keys = keys.filter(k => k !== "Age");
-    keys = keys.filter(k => k !== "Speed");
-    keys = keys.filter(k => k !== "Alignment");
-    keys = keys.filter(k => k !== "Languages");
-    keys = keys.filter(k => k !== "Ability score increase");
-    keys = keys.filter(k => k !== "Ability score increase (Lightfoot)");
-    keys = keys.filter(k => k !== "Cantrip");
-    keys = keys.filter(k => k !== "Extra language");
-    keys = keys.filter(k => k !== "Tool proficiency");
-    
+    keys = keys.filter((k) => k !== "Age");
+    keys = keys.filter((k) => k !== "Speed");
+    keys = keys.filter((k) => k !== "Alignment");
+    keys = keys.filter((k) => k !== "Languages");
+    keys = keys.filter((k) => k !== "Ability score increase");
+    keys = keys.filter((k) => k !== "Ability score increase (Lightfoot)");
+    keys = keys.filter((k) => k !== "Cantrip");
+    keys = keys.filter((k) => k !== "Extra language");
+    keys = keys.filter((k) => k !== "Tool proficiency");
+
     keys.forEach((key) => {
       result += key + ": " + character.RaceDetails.RacePerks[key] + "\n\n";
-    })
+    });
     return result;
   }
 
-  function addRow()
-  {
+  function addRow() {
     let rows = attacksandspellcasting.rows;
-    rows.push('new row');
-    setAttacksAndSpellCasting(rows)
+    rows.push("new row");
+    setAttacksAndSpellCasting(rows);
   }
 }
